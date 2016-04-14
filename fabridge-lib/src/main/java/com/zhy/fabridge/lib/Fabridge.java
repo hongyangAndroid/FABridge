@@ -1,6 +1,5 @@
 package com.zhy.fabridge.lib;
 
-import android.app.Activity;
 import android.support.v4.util.ArrayMap;
 
 import java.lang.ref.SoftReference;
@@ -14,17 +13,17 @@ public class Fabridge
 
     private static ArrayMap<String, SoftReference<FabridgeProxy>> mCache = new ArrayMap<>();
 
-    public static void call(Activity activity, String id, Object... params)
+    public static void call(Object host, String id, Object... params)
     {
-        FabridgeProxy fabridgeProxy = findFabridgeProxy(activity);
-        fabridgeProxy.call(activity, id, params);
+        FabridgeProxy fabridgeProxy = findFabridgeProxy(host);
+        fabridgeProxy.call(host, id, params);
     }
 
-    private static FabridgeProxy findFabridgeProxy(Activity activity)
+    private static FabridgeProxy findFabridgeProxy(Object host)
     {
         try
         {
-            Class clazz = activity.getClass();
+            Class clazz = host.getClass();
             String className = clazz.getName() + SUFFIX;
             SoftReference<FabridgeProxy> fabridgeRef = null;
             synchronized (Fabridge.class)
@@ -63,6 +62,6 @@ public class Fabridge
         {
             e.printStackTrace();
         }
-        throw new RuntimeException(String.format("can not find %s , something wrong when compiler.", activity.getClass().getSimpleName() + SUFFIX));
+        throw new RuntimeException(String.format("can not find %s , something wrong when compiler.", host.getClass().getSimpleName() + SUFFIX));
     }
 }

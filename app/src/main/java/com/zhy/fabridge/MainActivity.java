@@ -1,40 +1,30 @@
 package com.zhy.fabridge;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.zhy.fabridge.annotation.FCallbackId;
 
 public class MainActivity extends AppCompatActivity
 {
 
+    private TextView mTextView;
+    private ListFragment listFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mTextView = (TextView) findViewById(R.id.id_content_tv);
+        listFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.id_list_fragment);
+
     }
-
-    @FCallbackId(id = TitleFragment.BTN_ONE_CLICKED)
-    public String btnOneClick(View view, String b)
-    {
-        Toast.makeText(this, "btnOne in TitleFragment clicked==> " + view + ", " + b, Toast.LENGTH_SHORT).show();
-        return "aaaa";
-    }
-
-
-    @FCallbackId(id = TitleFragment.BTN_TWO_CLICKED)
-    void toActivityB()
-    {
-        Intent intent = new Intent(this, SecondActivity.class);
-        startActivity(intent);
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -53,11 +43,33 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
+        if (id == R.id.new_menu_item)
         {
+            showNewMenuItemDialog();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void showNewMenuItemDialog()
+    {
+        NewMenuItemDialog newMenuItemDialog = new NewMenuItemDialog();
+        newMenuItemDialog.show(getSupportFragmentManager(), "newItem");
+    }
+
+    @FCallbackId(id = NewMenuItemDialog.EVENT_CREATE_NEW_ITEM)
+    public void addNewItem(String title)
+    {
+        listFragment.addTitle(title);
+    }
+
+
+    @FCallbackId(id = ListFragment.EVENT_LIST_ITEM_CLICK)
+    public void menuItemClick(View view, int pos, String title)
+    {
+        mTextView.setText(title);
+    }
+
+
 }

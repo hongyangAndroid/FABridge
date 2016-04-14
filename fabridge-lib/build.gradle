@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 23
@@ -23,3 +24,15 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile project(':fabridge-annotation')
 }
+
+publish {
+    artifactId = 'fabridge-api'
+    uploadName = rootProject.uploadName
+    userOrg = rootProject.userOrg
+    groupId = rootProject.groupId
+    publishVersion = rootProject.publishVersion
+    desc = rootProject.description
+    website = rootProject.website
+    licences = rootProject.licences
+}
+

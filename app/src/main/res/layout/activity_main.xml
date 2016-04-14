@@ -2,19 +2,26 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical"
+              android:orientation="horizontal"
               tools:context=".MainActivity">
 
-    <fragment class="com.zhy.fabridge.TitleFragment"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:tag="titlefragment"
+    <fragment android:id="@+id/id_list_fragment"
+              class="com.zhy.fabridge.ListFragment"
+              android:layout_width="120dp"
+              android:layout_height="match_parent"
         ></fragment>
 
+    <View android:layout_width="1dp" android:layout_height="match_parent"
+          android:background="#444"/>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/id_content_tv"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:text="@string/hello_world"/>
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/hello_world"
+        android:textSize="24sp"/>
 
 </LinearLayout>
